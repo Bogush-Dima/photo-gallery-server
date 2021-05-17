@@ -1,43 +1,22 @@
 const express = require("express");
-const session = require("express-session");
-const MongoStore = require("connect-mongo");
 const mongoose = require("mongoose");
+const cors = require("cors");
+const { API, AUTH } = require("./constants/routes");
+const signIn = require("./routes/signIn");
+const signUp = require("./routes/signUp");
+require("dotenv").config();
 
-const passport = require("./passport/setup");
-const auth = require("./routes/auth");
-
+const { PORT, MONGO_URI } = process.env;
 const app = express();
-const PORT = 5000;
-const MONGO_URI = "mongodb+srv://dima:qwerty12345@cluster0.ory2n.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true })
   .then(() => console.log(`MongoDB connected ${MONGO_URI}`))
   .catch((err) => console.log(err));
 
-// Bodyparser middleware, extended false does not allow nested payloads
-app.use(express.json());
+app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
-
-// Express Session
-app.use(
-  session({
-    secret: "very secret this is",
-    resave: false,
-    saveUninitialized: true,
-    store: new MongoStore({
-      mongoUrl: MONGO_URI,
-      mongooseConnection: mongoose.connection
-    }),
-  })
-);
-
-// Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Routes
-app.use("/api/auth", auth);
-app.get("/", (req, res) => res.send("Good monring sunshine!"));
-
-app.listen(PORT, () => console.log(`Backend listening on port ${PORT}!`));
+app.use(cors());
+app.use(`${API}${AUTH}`, signUp);
+app.use(`${API}${AUTH}`, signIn);
+app.listen(PORT, () => console.log(`Server started on port ${PORT}!`));
