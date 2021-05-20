@@ -19,7 +19,8 @@ router.post(ROOT, async (req, res) => {
     });
 
     const user = await User.findOne({ _id: userId });
-    res.json({ user });
+    const {id, email} = user
+    res.json({ userId: id, email: email });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
