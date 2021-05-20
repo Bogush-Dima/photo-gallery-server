@@ -1,5 +1,4 @@
 const { Router } = require("express");
-const uniqid = require("uniqid");
 const multer = require("multer");
 const { ADD_IMAGE } = require("../constants/routes");
 const User = require("../models/User");
@@ -13,7 +12,21 @@ router.put(ADD_IMAGE, upload.any(), async (req, res) => {
     const { userId } = req.body;
     const file = req.files[0];
     const user = await User.findOne({ _id: userId });
-    user.gallery = [...user.gallery, { id: uniqid(), ...file }];
+
+    console.log(req)
+
+    const { mimetype, buffer } = file;
+
+    user.gallery = [
+      ...user.gallery,
+      {
+        img: {
+          data: buffer,
+          contentType: mimetype,
+        },
+      },
+    ];
+
     await user.save();
     res.status(200).json({ user });
   } catch (err) {
