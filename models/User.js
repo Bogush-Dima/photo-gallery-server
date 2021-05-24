@@ -5,11 +5,7 @@ const schema = new Schema({
   password: { type: String, required: true },
   gallery: [
     {
-      id: String,
-      img: {
-        data: Buffer,
-        contentType: String,
-      }
+      img: Array
     }
   ],
 });

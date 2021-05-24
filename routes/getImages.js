@@ -7,9 +7,9 @@ const router = Router();
 
 router.get(GET_IMAGES, async (req, res) => {
   try {
-    const userId = "60a6751101ad3c1da0aaea3a";
+    const userId = "60ab64660c68513fc40f1d50";
     const user = await User.findOne({ _id: userId });
-    res.status(200).json({ data: user.gallery[0].img.data });
+    res.status(200).json({ data: user.gallery[0].img });
   } catch (err) {
     res.status(400).json({ message: "Error with request image" });
   }
