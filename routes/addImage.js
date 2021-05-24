@@ -14,7 +14,6 @@ router.put(ADD_IMAGE, upload.any(), async (req, res) => {
     const user = await User.findOne({ _id: userId });
 
     const { buffer } = file;
-    console.log(buffer)
 
     user.gallery = [
       ...user.gallery,

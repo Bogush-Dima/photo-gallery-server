@@ -19,8 +19,8 @@ router.post(ROOT, async (req, res) => {
     });
 
     const user = await User.findOne({ _id: userId });
-    const {id, email} = user
-    res.json({ userId: id, email: email });
+    const {id, email, gallery} = user
+    res.json({ id, email, gallery });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
