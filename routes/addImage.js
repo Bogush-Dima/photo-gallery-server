@@ -15,15 +15,18 @@ router.post(ADD_IMAGE, upload.any(), async (req, res) => {
 
     const { buffer } = file;
 
+    const base64data = buffer.toString('base64')
+
     user.gallery = [
       ...user.gallery,
       {
-        img: buffer,
+        img: base64data,
       },
     ];
 
     await user.save();
-    res.status(200).json({ user });
+
+    res.status(200).json({ gallery: user.gallery });
   } catch (err) {
     res.status(400).json({ message: "Error with request image" });
   }
