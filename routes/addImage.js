@@ -7,7 +7,7 @@ require("dotenv").config();
 const router = Router();
 const upload = multer();
 
-router.put(ADD_IMAGE, upload.any(), async (req, res) => {
+router.post(ADD_IMAGE, upload.any(), async (req, res) => {
   try {
     const { userId } = req.body;
     const file = req.files[0];
