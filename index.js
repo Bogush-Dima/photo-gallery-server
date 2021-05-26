@@ -6,7 +6,7 @@ const signIn = require("./routes/signIn");
 const signUp = require("./routes/signUp");
 const root = require("./routes/root");
 const addImage = require("./routes/addImage");
-const getImages = require("./routes/getImages");
+const deleteImage = require("./routes/deleteImage");
 require("dotenv").config();
 
 const { PORT, MONGO_URI } = process.env;
@@ -24,5 +24,5 @@ app.use(`${API}${AUTH}`, signUp);
 app.use(`${API}${AUTH}`, signIn);
 app.use(`${API}${AUTH}`, root);
 app.use(`${API}`, addImage);
-app.use(`${API}`, getImages);
+app.use(`${API}`, deleteImage);
 app.listen(PORT, () => console.log(`Server started on port ${PORT}!`));
